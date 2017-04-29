@@ -1,50 +1,48 @@
-\documentclass[letterpaper,10pt,titlepage]{article}
+\documentclass[letterpaper,draftclsnofoot,10pt,onecolumn,titlepage]{IEEEtran}\usepackage[margin=0.75in]{geometry}
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+\renewcommand\thesectiondis{\arabic{section}}
+\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
 
-\usepackage{graphicx}                                        
-\usepackage{amssymb}                                         
-\usepackage{amsmath}                                         
-\usepackage{amsthm}                                          
-
-\usepackage{alltt}                                           
+\usepackage{graphicx}
 \usepackage{float}
-\usepackage{color}
-\usepackage{url}
-
-\usepackage{balance}
-\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{graphicx}
+\usepackage[justification=centering]{caption}
 \usepackage{enumitem}
-\usepackage{pstricks, pst-node}
-
+\usepackage{listings}
 \usepackage{geometry}
-\geometry{textheight=8.5in, textwidth=6in}
-
-%random comment
-
-\newcommand{\cred}[1]{{\color{red}#1}}
-\newcommand{\cblue}[1]{{\color{blue}#1}}
-
+\graphicspath{{../img/}}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
 \usepackage{hyperref}
 \usepackage{geometry}
+\linespread{1}
+\setcounter{secnumdepth}{5}
+\setcounter{secnumdepth}{5}
 
-\def\name{Alec Merdler}
+\title{Shape Web Service API Technology Review}
 
-%pull in the necessary preamble matter for pygments output
-\input{pygments.tex}
-
-%% The following metadata will show up in the PDF properties
-\hypersetup{
-  colorlinks = true,
-  urlcolor = black,
-  pdfauthor = {\name},
-  pdfkeywords = {cs311 ``operating systems'' files filesystem I/O},
-  pdftitle = {CS 311 Project 1: UNIX File I/O},
-  pdfsubject = {CS 311 Project 1},
-  pdfpagemode = UseNone
+\author{
+	Group Number 8\\
+	\and
+	David Teofilovic, Alec Merdler, Tyler Hotan\\
+	\and
+	CS 461: CS Senior Senior Capstone\\
+	\and
+	Fall 2016\\
 }
 
-\begin{document}
+\date{October 14, 2016}
 
-%input the pygmentized output of mt19937ar.c, using a (hopefully) unique name
-%this file only exists at compile time. Feel free to change that.
-\input{__mt19937ar.c.tex}
+\begin{document}
+\begin{titlepage}
+\clearpage\maketitle
+\thispagestyle{empty}
+
+\maketitle
+\end{titlepage}
+
+
 \end{document}
