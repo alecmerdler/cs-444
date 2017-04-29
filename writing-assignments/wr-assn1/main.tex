@@ -10,7 +10,7 @@
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage[justification=centering]{caption}
-\usepackage{enumitem}
+%\usepackage{enumitem}
 \usepackage{listings}
 \usepackage{geometry}
 \graphicspath{{../img/}}
@@ -32,7 +32,7 @@
 	Spring 2017\\
 }
 
-\date{October 14, 2016}
+\date{March 28, 2017}
 
 \begin{document}
 \begin{titlepage}
@@ -42,5 +42,37 @@
 \maketitle
 \end{titlepage}
 
+\section{Introduction}
+    \subsection{Processes}
+    The explicit purpose of computers is to execute sets of instructions, called programs. As computers have increased
+    in power and speed, the complexity and number of these programs has also increased. A simple program could count
+    to the number ten, printing out each number along the way, then stop. The resources needed for a computer to
+    execute this program would be minimal (barring any fancy recursion), and has only one explicit process: to
+    count numbers. However, a more complex example would be a program that receives user input, performs extensive
+    calculations, updates a database, and returns a result to the user. This type of program would be more aptly
+    classified as a computer application, in that it contains many different components and processes, versus just
+    counting numbers. Many of these processes can happen at the same time, and there can be duplicate processes in
+    order to divide the work needed to be done. We can therefore think of a computer process as a program that is
+    being executed, from which applications are built.
+
+    \subsection{Threads}
+    Each computer process requires resources in order to run, including the CPU, RAM, and hard disk storage. The
+    operating system allocates these resources using threads.
+
+    \subsection{CPU Scheduling}
+    Any operating system that claims to be a multiprocessing operating system must have a way of managing all of
+    the running processes and allocating system resources to them. One of the most critical resources is the CPU's
+    time. Modern CPU's have multiple physical cores, which can execute their own process. However, in order to run
+    even more processes at the same time, the operating system can quickly switch between different processes, giving
+    them time to use the CPU, and creating the appearance of running many programs simultaneously.
+
+
+\section{Linux}
+
+
+\section{FreeBSD}
+
+
+\section{Windows}
 
 \end{document}
