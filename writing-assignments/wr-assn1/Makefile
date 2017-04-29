@@ -13,9 +13,9 @@ PDF	= $(SRC:%.tex=%.pdf)
 all: writeup
 
 writeup:
-	latex report.tex
-	dvips -R -Poutline -t letter report.dvi -o report.ps
-	ps2pdf report.ps
+	latex main.tex
+	dvips -R -Poutline -t letter main.dvi -o main.ps
+	ps2pdf main.ps
 
 turnin:
 	rm -f *.ps *.dvi *.out *.log *.aux *.bbl *.blg *.pyg
