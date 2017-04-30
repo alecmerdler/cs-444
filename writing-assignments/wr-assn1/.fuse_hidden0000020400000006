@@ -69,26 +69,18 @@
 
 \section{Linux}
     \subsection{Processes}
-    Each process (also known as a task) in Linux is represented by a task\_struct data structure, which is naturally
+    Each process (also known as a task) in Linux is represented by a task_struct data structure, which is naturally
     large and complex. Outlined below are the main basic functional areas and fields:
 
     \begin{itemize}
-        \item State - Can be one of following: running, waiting, stopped, zombie
-        \item Scheduling Information - Data regarding process precedence in the system
-        \item Identifiers - Simply a unique number for the process
-        \item Inter-Process Communication - Standard *nix information for processes to share data
-        \item Links - Pointers to parent, sibling, and child processes
-        \item Timers - Data about when the process was created and how much CPU time it has consumed
-        \item File System - Pointers to working directories and other files
-        \item Virtual Memory - How much virtual memory assigned to the process
-        \item Processor Specific Context - Information that is needed to restart the process in the same state it was in
+        \item State
+        \item Scheduling Information
+        \item Identifiers
     \end{itemize}
 
 \section{FreeBSD}
-    \subsection{Processes}
 
 
 \section{Windows}
-    \subsection{Processes}
 
 \end{document}
