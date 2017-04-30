@@ -16,6 +16,7 @@ writeup:
 	latex main.tex
 	dvips -R -Poutline -t letter main.dvi -o main.ps
 	ps2pdf main.ps
+	chmod 777 main.pdf
 
 turnin:
 	rm -f *.ps *.dvi *.out *.log *.aux *.bbl *.blg *.pyg
