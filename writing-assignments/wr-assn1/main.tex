@@ -11,14 +11,15 @@
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage[justification=centering]{caption}
-%\usepackage{enumitem}
 \usepackage{listings}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 \lstset{language=C++,
         basicstyle=\ttfamily,
         keywordstyle=\color{blue}\ttfamily,
         stringstyle=\color{red}\ttfamily,
         commentstyle=\color{green}\ttfamily,
-        morecomment=[l][\color{magenta}]{\#}
+        morecomment=[l][\color{magenta}]{\#},
+        backgroundcolor=\color{backcolour}
 }
 \usepackage{geometry}
 \graphicspath{{../img/}}
@@ -106,8 +107,8 @@
     \subsection{Processes}
     Processes in Windows are similar to those in Linux in many ways. Each process contains a virtual address space,
     executable code, open handles to system objects, a security context, a unique process ID, environment variables,
-    a priority class, minimum and maximum working set sizes, and at least one thread of execution.
-
+    a priority class, minimum and maximum working set sizes, and at least one thread of execution. Processes also
+    have a tree structure, with parent, sibling, and child processes.
 
     Below is a code snippet showing how to create a child process in Windows using C++:
     \begin{lstlisting}[language=C++]
@@ -155,5 +156,10 @@
             CloseHandle( pi.hThread );
         }
     \end{lstlisting}
+
+    \subsection{Threads}
+    Each Windows process is started with a single thread, but can create more threads which all share its virtual
+    address space and system resources. Threads can be created by using the CreateThread function, which returns a
+    handle to the thread.
 
 \end{document}
