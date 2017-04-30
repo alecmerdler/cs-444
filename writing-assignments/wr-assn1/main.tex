@@ -101,6 +101,10 @@
     Processes in FreeBSD are similar to those in Linux in many ways. Each process has a unique process ID (PID). Each
     process has one owner and group whose permissions determine which files and devices the process can open. Processes
     also have a tree structure, with parent, sibling, and child processes.
+    \\
+    New processes are created using the fork family of system calls. There are a few variations of the fork system call:
+    fork creates a complete copy of the parent process; rfork creates a copy that shares a selected set of resources from
+    its parent; vfork handles virtual memory differently than fork.
 
 
 \section{Windows}
