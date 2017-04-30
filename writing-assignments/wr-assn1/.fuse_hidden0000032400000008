@@ -8,16 +8,14 @@
 
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage{color}
 \usepackage{graphicx}
 \usepackage[justification=centering]{caption}
 %\usepackage{enumitem}
 \usepackage{listings}
 \lstset{language=C++,
-        basicstyle=\ttfamily,
-        keywordstyle=\color{blue}\ttfamily,
-        stringstyle=\color{red}\ttfamily,
-        commentstyle=\color{green}\ttfamily,
+        keywordstyle=\color{blue},
+        stringstyle=\color{red},
+        commentstyle=\color{green},
         morecomment=[l][\color{magenta}]{\#}
 }
 \usepackage{geometry}
