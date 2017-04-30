@@ -104,7 +104,17 @@
     \\
     New processes are created using the fork family of system calls. There are a few variations of the fork system call:
     fork creates a complete copy of the parent process; rfork creates a copy that shares a selected set of resources from
-    its parent; vfork handles virtual memory differently than fork.
+    its parent; vfork handles virtual memory differently than fork. Forking a process involves three steps: allocation and
+    initialization of a new child process structure, duplicating the context of the parent process, and scheduling the 
+    new child process to run. During the context duplication, the following portions are copied:
+    \begin{itemize}
+    	\item Process group and session
+	\item Signal state (ignored, caught, and blocked signal masks)
+	\item The dg\_nice scheduling parameter 
+	\item A reference to the parent credentials
+	\item A reference to the set of open files by the parent
+	\item A reference to the parent limits
+    \end{itemize}
 
 
 \section{Windows}
