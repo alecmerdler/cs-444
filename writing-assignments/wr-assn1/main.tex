@@ -157,28 +157,39 @@ if( !CreateProcess( NULL,   // No module name (use command line)
     address space and system resources. Threads can be created by using the CreateThread function, which returns a
     handle to the thread.
     
+    \subsection{CPU Scheduling}
+    The Windows CPU scheduler uses the round robin method to assign time slices to all threads of the highest 
+    priority. If a thread with higher priority becomes ready to run, the scheduler will stop executing the lower
+    priority thread immediately and assign a full time slice to the new thread \cite{windowsprocesses}. This can 
+    be contrasted with the Linux scheduler, which utilizes runqueues to fairly assign time slices to threads 
+    while preventing starvation \cite{linuxscheduler}.
     
-    \subsection{Conclusion}
-    The implementation of processes, threads, and multitasking are quite similar among Windows, FreeBSD, and Linux 
-    operating systems. Where they differ is often due to legacy code or business restrictions, rather than an 
-    engineering difference of opinion. After countless iterations of these implementations, the fact that they 
-    have converged to such a common platform seems to indicate our engineering efforts have yielded the best 
-    solution to this complex problem.
     
-    \begin{thebibliography}{3}
-    
-    	\bibitem{linuxprocesses}
-	\textit{Chapter 4 Processes}
-	David A Rusling, 1999, URL: \url{http://www.tldp.org/LDP/tlk/kernel/processes.html}
-	
-	\bibitem{freebsdfork}
-	\textit{FreeBSD Man Pages - Fork(2)}
-	The FreeBSD Project, 2017, URL: \url{https://www.freebsd.org/cgi/man.cgi?fork(2)}
-	
-	\bibitem{windowsprocesses}
-	\textit{Design and Implementation of a CPU Bound Process Migration in Windows 7}
-	A. M. Khidhir, B. A. Mustafa and N. T. Saleh, 2012, URL: \url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6516381&isnumber=6516308}
-        
-    \end{thebibliography}
+\section{Conclusion}
+The implementation of processes, threads, and multitasking are quite similar among Windows, FreeBSD, and Linux 
+operating systems. Where they differ is often due to legacy code or business restrictions, rather than an 
+engineering difference of opinion. After countless iterations of these implementations, the fact that they 
+have converged to such a common platform seems to indicate our engineering efforts have yielded the best 
+solution to this complex problem.
+
+\begin{thebibliography}{4}
+
+\bibitem{linuxprocesses}
+\textit{Chapter 4 Processes}
+David A Rusling, 1999, URL: \url{http://www.tldp.org/LDP/tlk/kernel/processes.html}
+
+\bibitem{freebsdfork}
+\textit{FreeBSD Man Pages - Fork(2)}
+The FreeBSD Project, 2017, URL: \url{https://www.freebsd.org/cgi/man.cgi?fork(2)}
+
+\bibitem{windowsprocesses}
+\textit{Design and Implementation of a CPU Bound Process Migration in Windows 7}
+A. M. Khidhir, B. A. Mustafa and N. T. Saleh, 2012, URL: \url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6516381&isnumber=6516308}
+
+\bibitem{linuxscheduler}
+\textit{Understanding the Linux 2.6.8.1 CPU Scheduler}
+Josh Aas, 2005, URL: \url{https://www.cs.unm.edu/~eschulte/classes/cs587/data/10.1.1.59.6385.pdf}
+
+\end{thebibliography}
 
 \end{document}
