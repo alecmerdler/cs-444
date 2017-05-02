@@ -124,6 +124,8 @@
     \end{itemize}
     
     \subsection{CPU Scheduling}
+    FreeBSD uses runqueues and round robin scheduling similar to Linux. If a thread blocks on a CPU, the scheduler
+    will move that thread to the sleepqueue to prevent it from affecting other threads.
 
 \section{Windows}
     \subsection{Processes}
