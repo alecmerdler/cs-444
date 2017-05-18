@@ -116,7 +116,7 @@ the data operations and returns a status when it completes. \cite{Windows} Async
 to issue multiple I/O requests and continue executing while the device performs the I/O operation. To use 
 asynchronous I/O, you must specify the FILE-FLAG-OVERLAPPED flag when you call the CreateFile function.
 
-\begin{lstlisting}
+\begin{lstlisting}[language=C++]
 HANDLE WINAPI CreateFile(
   _In_     LPCTSTR               lpFileName,
   _In_     DWORD                 dwDesiredAccess,
