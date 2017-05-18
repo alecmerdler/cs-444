@@ -69,32 +69,44 @@ The Windows operating system uses a number of executive components that work tog
 output devices connected to the computer.
 
 \begin{description}
+
     \item[Security] 
     Uniform security and naming across devices in order to protect shareable resources.
-
+    
+    \item[Asynchronous]
+    High performance asynchronous packet based I/O to allow for the creation and maintenance of scalable 
+    applications.
+    
+    \item[Multiple Platforms]
+    Services that allow drivers to be written in a high level language and easily ported between different 
+    machine architectures.
+    
+    \item[Extensibility]
+    Layering and extensibility to allow for the addition of drivers that tranparently modify the behavior 
+    of other drivers or devices, without requiring any changes to the driver whole behavior or device is 
+    modified.
+    
+    \item[Dynamic Loading]
+    Dynamic unloading and loading of device drivers so that they can be loaded on demand and will not 
+    consume system resources when not in use.
+    
+    \item[Plug and Play]
+    Support for plug and play, where the system locates and installs drivers for newly detected hardware, 
+    assigns them hardware resources they require, and also allows applications to discover and activate 
+    device interfaces.
+    
+    \item[Power Management]
+    Support for power management so that the system or individual devices can enter low power states.
+    
+    \item[File Systems]
+    Support for multiple installable file systems, including FAT, the CD-ROM file sustem(CDFS), the 
+    Universal Disk Format (UDF) file system, and the Windows file system (NTFS).
+    
+    \item[Driver Tools]
+    Windows Management Instrumentation (WMI) support and diagnostics tools so that drivers can be managed 
+    and monitored through WMI scripts and programs.
+    
 \end{description}
-
-\begin{enumerate}
-\item Uniform security and naming across devices in order to protect shareable resources.
-\item High performance asynchronous packet based I/O to allow for the creation and maintenance of scalable 
-      applications.
-\item Services that allow drivers to be written in a high level language and easily ported between different 
-      machine architectures.
-\item Layering and extensibility to allow for the addition of drivers that tranparently modify the behavior 
-      of other drivers or devices, without requiring any changes to the driver whole behavior or device is 
-      modified.
-\item Dynamic unloading and loading of device drivers so that they can be loaded on demand and will not 
-      consume system resources when not in use.
-\item Support for plug and play, where the system locates and installs drivers for newly detected hardware, 
-      assigns them hardware resources they require, and also allows applications to discover and activate 
-      device interfaces.
-\item Support for power management so that the system or individual devices can enter low power states.
-\item Support for multiple installable file systems, including FAT, the CD-ROM file sustem(CDFS), the 
-      Universal Disk Format (UDF) file system, and the Windows file system (NTFS).
-\item Windows Management Instrumentation (WMI) support and diagnosis tools so that drivers can be managed 
-      and monitored through WMI scripts and programs.
-\end{enumerate}
-
 
 \section{FreeBSD}
 
