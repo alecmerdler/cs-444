@@ -136,13 +136,29 @@ the list contains requests, the drivers will iterate through the list from the l
 
 \section{FreeBSD}
 
-\subsection{I/O Components}
+\subsection{I/O Processing}
 
+\begin{lstlisting}[language=C++]
+struct _disk_sched_interface {
+       struct _disk_sched_interface *next;
+       char *name;     /* symbolic name */
+       int refcount;   /* users of this scheduler */
 
-\section{Linux}
+       void (*disksort)(struct buf_queue_head *head, struct buf *bp);
+       void (*remove)(struct buf_queue_head *head, struct buf *bp);
+       struct buf *(*get_first)(struct buf_queue_head *head);
+       void (*init)(struct buf_queue_head *head);
+       void (*delete)(struct buf_queue_head *head);
+       void (*load)(void);     /* load scheduler */
+       void (*unload)(void);   /* unload scheduler */
+};
+\end{lstlisting}
 
-\subsection{I/O Components}
-
+Above is the implementation of the standard disk scheduler in FreeBSD. A significant difference between 
+this scheduler and the Linux scheduler is the ability to delete, load, and unload. Delete is used to free
+resources when a scheduler is not in use. Load/unload are used can hook into the respective scheduler events
+to perform specific operations. Every time init is called, it will allocate a struct containing device 
+information, which is referenced using a file pointer.
 
 \begin{thebibliography}{1}
 
