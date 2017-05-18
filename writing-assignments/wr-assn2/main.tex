@@ -108,6 +108,33 @@ output devices connected to the computer.
     
 \end{description}
 
+\subsection{I/O Processing}
+To start, there are different stages of the I/O processing and they depend on if the request is destined 
+for a single-layered driver or for a device that is reached through a multilayer driver. Most of the I/O 
+operations in Windows are synchronous which means the application thread will wait while the device performs 
+the data operations and returns a status when it completes. \cite{Windows} Asynchronous I/O allow an application 
+to issue multiple I/O requests and continue executing while the device performs the I/O operation. To use 
+asynchronous I/O, you must specify the FILE-FLAG-OVERLAPPED flag when you call the CreateFile function.
+
+\begin{lstlisting}
+HANDLE WINAPI CreateFile(
+  _In_     LPCTSTR               lpFileName,
+  _In_     DWORD                 dwDesiredAccess,
+  _In_     DWORD                 dwShareMode,
+  _In_opt_ LPSECURITY_ATTRIBUTES lpSecurityAttributes,
+  _In_     DWORD                 dwCreationDisposition,
+  _In_     DWORD                 dwFlagsAndAttributes,
+  _In_opt_ HANDLE                hTemplateFile
+); 
+\end{lstlisting}
+
+Above is the implementation of the CreateFile function. CreateFile is the function used to create or open 
+a file or I/O device. As mentioned before, this is where you would specify the asynchronous flag if you 
+wish to do so. Once you have your file descriptor implemented, the windows scheduler processes these 
+descriptors in a C-LOOK. It implements this by using calls to KeInsertByKeyDeviceQueue and 
+KeRemoveByKeyDeviceQueue functions. Once the list has requests, the drivers will iterate through the list 
+from lowest sector to highest until they reach the end. 
+
 \section{FreeBSD}
 
 \subsection{I/O Components}
