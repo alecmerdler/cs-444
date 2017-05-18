@@ -130,12 +130,9 @@ HANDLE WINAPI CreateFile(
 ); 
 \end{lstlisting}
 
-Above is the implementation of the CreateFile function. CreateFile is the function used to create or open 
-a file or I/O device. As mentioned before, this is where you would specify the asynchronous flag if you 
-wish to do so. Once you have your file descriptor implemented, the windows scheduler processes these 
-descriptors in a C-LOOK. It implements this by using calls to KeInsertByKeyDeviceQueue and 
-KeRemoveByKeyDeviceQueue functions. Once the list has requests, the drivers will iterate through the list 
-from lowest sector to highest until they reach the end. 
+Above is the implementation of the CreateFile function. This function is used to create or open files or
+other I/O devices. The Windows scheduler processes the file descriptors using a C-LOOK algorithm. Once
+the list contains requests, the drivers will iterate through the list from the lowest to highest sector.
 
 \section{FreeBSD}
 
