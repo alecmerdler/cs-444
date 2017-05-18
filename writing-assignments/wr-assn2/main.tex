@@ -57,14 +57,46 @@ Computers are fundamentally useless without the ability to receive different inp
 Whether the data comes from a hard drive, solid state drive, mouse, keyboard, or virtual reality headset,
 the operating system needs to be able to translate and deliver the data to the various programs that need
 it. Conversely, programs running on the operating system need a way to provide feedback back out to 
-devices.
+devices. The design and implementation of handling I/O differs between three major operating systems: Windows,
+FreeBSD, and Linux. However, there are also many similarities amongst them as well.
 
 \section{Windows}
+ 
+\subsection{I/O Components}
+The Windows I/O System consists of many executive components that together manage devices.
+The Windows operating system uses a number of executive components that work together to manage input and 
+output devices connected to the computer.
+
+\begin{enumerate}
+\item Uniform security and naming across devices in order to protect shareable resources.
+\item High performance asynchronous packet based I/O to allow for the creation and maintenance of scalable 
+      applications.
+\item Services that allow drivers to be written in a high level language and easily ported between different 
+      machine architectures.
+\item Layering and extensibility to allow for the addition of drivers that tranparently modify the behavior 
+      of other drivers or devices, without requiring any changes to the driver whole behavior or device is 
+      modified.
+\item Dynamic unloading and loading of device drivers so that they can be loaded on demand and will not 
+      consume system resources when not in use.
+\item Support for plug and play, where the system locates and installs drivers for newly detected hardware, 
+      assigns them hardware resources they require, and also allows applications to discover and activate 
+      device interfaces.
+\item Support for power management so that the system or individual devices can enter low power states.
+\item Support for multiple installable file systems, including FAT, the CD-ROM file sustem(CDFS), the 
+      Universal Disk Format (UDF) file system, and the Windows file system (NTFS).
+\item Windows Management Instrumentation (WMI) support and diagnosis tools so that drivers can be managed 
+      and monitored through WMI scripts and programs.
+\end{enumerate}
 
 
 \section{FreeBSD}
 
+\subsection{I/O Components}
+
+
 \section{Linux}
+
+\subsection{I/O Components}
 
 
 \begin{thebibliography}{1}
