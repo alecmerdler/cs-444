@@ -109,12 +109,14 @@ output devices connected to the computer.
 \end{description}
 
 \subsection{I/O Processing}
-To start, there are different stages of the I/O processing and they depend on if the request is destined 
-for a single-layered driver or for a device that is reached through a multilayer driver. Most of the I/O 
-operations in Windows are synchronous which means the application thread will wait while the device performs 
-the data operations and returns a status when it completes. \cite{Windows} Asynchronous I/O allow an application 
-to issue multiple I/O requests and continue executing while the device performs the I/O operation. To use 
-asynchronous I/O, you must specify the FILE-FLAG-OVERLAPPED flag when you call the CreateFile function.
+Windows provides a hardware abstraction layer (HAL) at the lowest level in order to encapsulate the different
+processor and interrupt signals and instead expose a uniform set of application programming interfaces (APIs)
+to device drivers. The next layer is the actual device drivers. This layer is followed by the I/O system
+layer, which includes the various executive components listed in the previous section. Most I/O
+operations in Windows are synchronous, which means the application thread will block while the device
+performs its data operations. Asynchronous I/O operations are enabled by specifying the FILE-FLAG-OVERLAPPED
+flag when calling the CreateFile function. This will allow the application to continue executing while the
+device performs the I/O operation.
 
 \begin{lstlisting}[language=C++]
 HANDLE WINAPI CreateFile(
