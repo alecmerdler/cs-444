@@ -16,6 +16,8 @@ all: writeup
 writeup:
 	latex main.tex
 	bibtex main
+	latex main.tex
+	latex main.tex
 	dvips -R -Poutline -t letter main.dvi -o main.ps
 	ps2pdf main.ps
 	chmod 777 main.pdf
