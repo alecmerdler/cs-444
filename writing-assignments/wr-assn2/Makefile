@@ -1,6 +1,7 @@
 TEX     = latex -shell-escape
 DVIPS	= dvips
 DVIPDF  = dvipdft
+BIBTEX	= bibtex
 XDVI	= xdvi -gamma 4
 GH		= gv
 
@@ -13,6 +14,7 @@ PDF	= $(SRC:%.tex=%.pdf)
 all: writeup
 
 writeup:
+	bibtex biblio
 	latex main.tex
 	dvips -R -Poutline -t letter main.dvi -o main.ps
 	ps2pdf main.ps
