@@ -66,7 +66,7 @@ FreeBSD, and Linux. However, there are also many similarities amongst them as we
 \subsection{I/O Components}
 The Windows I/O System consists of many executive components that together manage devices.
 The Windows operating system uses a number of executive components that work together to manage input and 
-output devices connected to the computer.
+output devices connected to the computer \cite{Windows}.
 
 \begin{description}
 
@@ -116,7 +116,7 @@ layer, which includes the various executive components listed in the previous se
 operations in Windows are synchronous, which means the application thread will block while the device
 performs its data operations. Asynchronous I/O operations are enabled by specifying the FILE-FLAG-OVERLAPPED
 flag when calling the CreateFile function. This will allow the application to continue executing while the
-device performs the I/O operation.
+device performs the I/O operation \cite{Windows}.
 
 \begin{lstlisting}[language=C++]
 HANDLE WINAPI CreateFile(
@@ -132,7 +132,8 @@ HANDLE WINAPI CreateFile(
 
 Above is the implementation of the CreateFile function. This function is used to create or open files or
 other I/O devices. The Windows scheduler processes the file descriptors using a C-LOOK algorithm. Once
-the list contains requests, the drivers will iterate through the list from the lowest to highest sector.
+the list contains requests, the drivers will iterate through the list from the lowest to highest sector
+\cite{Windows_CreateFile}.
 
 \section{FreeBSD}
 
@@ -153,19 +154,19 @@ file descriptors types and uses are as follows:
 \item  PROCDESC - process
 \item  VNODE - file or device
 \item  SOCKET - communication endpoint
-\end{itemize}\cite{FreeBSD2} 
+\end{itemize}
 
 These file descriptors are important because each data structure that is used to implement the 
 I/O scheduler has one of these types. Also, there are multiple different flags that go along 
 with these file descriptors that will tell the operating system whether to block or not or if 
-the process will be asynchronous or synchronous. 
+the process will be asynchronous or synchronous \cite{FreeBSDBook}.
 
 \subsection{I/O Processing}
 Below is the implementation of the standard disk scheduler in FreeBSD. A significant difference between 
 this scheduler and the Linux scheduler is the ability to delete, load, and unload. Delete is used to free
 resources when a scheduler is not in use. Load/unload are used can hook into the respective scheduler events
 to perform specific operations. Every time init is called, it will allocate a struct containing device 
-information, which is referenced using a file pointer.
+information, which is referenced using a file pointer \cite{FreeBSDBook}.
 
 \begin{lstlisting}[language=C++]
 struct _disk_sched_interface {
@@ -181,20 +182,12 @@ struct _disk_sched_interface {
        void (*load)(void);     /* load scheduler */
        void (*unload)(void);   /* unload scheduler */
 };
-\end{lstlisting}
+\end{lstlisting}\cite{FreeBSD}
 
 \section{Conclusion}
 The design and implementation of I/O in FreeBSD is very similar to Linux, in that they both use C-LOOK algorithm.
 All three operating systems provide file descriptors to specify asynchronous data operations, but only FreeBSD
 requires the type of descriptor.
-
-% \begin{thebibliography}{1}
-
-%     \bibitem{linuxblockio}
-%     \textit{An Introduction to Linux Block I/O}
-%     Avishay Traeger, 2012, URL: \url{http://researcher.ibm.com/researcher/files/il-AVISHAY/01-block_io-v1.3.pdf}
-
-% \end{thebibliography}
 
 \bibliographystyle{IEEEtran}
 \bibliography{biblio}
