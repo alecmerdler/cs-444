@@ -187,7 +187,10 @@ struct _disk_sched_interface {
 \section{Conclusion}
 The design and implementation of I/O in FreeBSD is very similar to Linux, in that they both use C-LOOK algorithm.
 All three operating systems provide file descriptors to specify asynchronous data operations, but only FreeBSD
-requires the type of descriptor.
+requires the type of descriptor. Windows has several layers of abstraction, including the hardware 
+abstraction layer (HAL) to provide a uniform interface for all device drivers across different hardware 
+architectures. This is similar to the Linux kernel itself, which provides a uniform set of APIs across 
+countless devices. FreeBSD also has a form of HAL.
 
 \bibliographystyle{IEEEtran}
 \bibliography{biblio}
