@@ -14,8 +14,8 @@ PDF	= $(SRC:%.tex=%.pdf)
 all: writeup
 
 writeup:
-	bibtex biblio
 	latex main.tex
+	bibtex main
 	dvips -R -Poutline -t letter main.dvi -o main.ps
 	ps2pdf main.ps
 	chmod 777 main.pdf
