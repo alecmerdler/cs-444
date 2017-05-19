@@ -136,7 +136,36 @@ the list contains requests, the drivers will iterate through the list from the l
 
 \section{FreeBSD}
 
+\subsection{I/O Components}
+There are multiple different types of file descriptors that are used for difference processes. These 
+file descriptors types and uses are as follows:
+
+\begin{itemize}
+\item  PIPE - pipe
+\item  FIFO - named pipe
+\item  SEM - POSIX semaphore
+\item  PTS - pseudo-teletype master device
+\item  DEV - device not reference by a vnode
+\item  MQUEUE - POSIX message queue
+\item  KQUEUE - event queue
+\item  CRYPTO - cryptographic hardware
+\item  SHM - POSIX shared memory
+\item  PROCDESC - process
+\item  VNODE - file or device
+\item  SOCKET - communication endpoint
+\end{itemize}\cite{FreeBSD2} 
+
+These file descriptors are important because each data structure that is used to implement the 
+I/O scheduler has one of these types. Also, there are multiple different flags that go along 
+with these file descriptors that will tell the operating system whether to block or not or if 
+the process will be asynchronous or synchronous. 
+
 \subsection{I/O Processing}
+Below is the implementation of the standard disk scheduler in FreeBSD. A significant difference between 
+this scheduler and the Linux scheduler is the ability to delete, load, and unload. Delete is used to free
+resources when a scheduler is not in use. Load/unload are used can hook into the respective scheduler events
+to perform specific operations. Every time init is called, it will allocate a struct containing device 
+information, which is referenced using a file pointer.
 
 \begin{lstlisting}[language=C++]
 struct _disk_sched_interface {
@@ -154,15 +183,10 @@ struct _disk_sched_interface {
 };
 \end{lstlisting}
 
-Above is the implementation of the standard disk scheduler in FreeBSD. A significant difference between 
-this scheduler and the Linux scheduler is the ability to delete, load, and unload. Delete is used to free
-resources when a scheduler is not in use. Load/unload are used can hook into the respective scheduler events
-to perform specific operations. Every time init is called, it will allocate a struct containing device 
-information, which is referenced using a file pointer.
-
 \section{Conclusion}
-
-
+The design and implementation of I/O in FreeBSD is very similar to Linux, in that they both use C-LOOK algorithm.
+All three operating systems provide file descriptors to specify asynchronous data operations, but only FreeBSD
+requires the type of descriptor.
 
 \begin{thebibliography}{1}
 
