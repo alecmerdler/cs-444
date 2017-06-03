@@ -1,0 +1,198 @@
+\documentclass[letterpaper,draftclsnofoot,10pt,onecolumn,titlepage]{IEEEtran}\usepackage[margin=0.75in]{geometry}
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+\renewcommand\thesectiondis{\arabic{section}}
+\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
+
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{float}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[justification=centering]{caption}
+\usepackage{listings}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstset{language=C++,
+        basicstyle=\ttfamily,
+        keywordstyle=\color{blue}\ttfamily,
+        stringstyle=\color{red}\ttfamily,
+        commentstyle=\color{green}\ttfamily,
+        morecomment=[l][\color{magenta}]{\#},
+        backgroundcolor=\color{backcolour}
+}
+\usepackage{geometry}
+\graphicspath{{../img/}}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\usepackage{hyperref}
+\usepackage{geometry}
+\linespread{1}
+\setcounter{secnumdepth}{5}
+\setcounter{secnumdepth}{5}
+
+\title{Writing Assignment 2}
+
+\author{
+	Alec Merdler\\
+	\and
+	CS 444: Operating Systems II\\
+	\and
+	Spring 2017\\
+}
+
+\date{May 17, 2017}
+
+\begin{document}
+\begin{titlepage}
+\clearpage\maketitle
+\thispagestyle{empty}
+
+\maketitle
+\end{titlepage}
+
+\section{Introduction}
+Computers are fundamentally useless without the ability to receive different inputs and emit unique output.
+Whether the data comes from a hard drive, solid state drive, mouse, keyboard, or virtual reality headset,
+the operating system needs to be able to translate and deliver the data to the various programs that need
+it. Conversely, programs running on the operating system need a way to provide feedback back out to 
+devices. The design and implementation of handling I/O differs between three major operating systems: Windows,
+FreeBSD, and Linux. However, there are also many similarities amongst them as well.
+
+\section{Windows}
+ 
+\subsection{I/O Components}
+The Windows I/O System consists of many executive components that together manage devices.
+The Windows operating system uses a number of executive components that work together to manage input and 
+output devices connected to the computer \cite{Windows}.
+
+\begin{description}
+
+    \item[Security] 
+    Uniform security and naming across devices in order to protect shareable resources.
+    
+    \item[Asynchronous]
+    High performance asynchronous packet based I/O to allow for the creation and maintenance of scalable 
+    applications.
+    
+    \item[Multiple Platforms]
+    Services that allow drivers to be written in a high level language and easily ported between different 
+    machine architectures.
+    
+    \item[Extensibility]
+    Layering and extensibility to allow for the addition of drivers that tranparently modify the behavior 
+    of other drivers or devices, without requiring any changes to the driver whole behavior or device is 
+    modified.
+    
+    \item[Dynamic Loading]
+    Dynamic unloading and loading of device drivers so that they can be loaded on demand and will not 
+    consume system resources when not in use.
+    
+    \item[Plug and Play]
+    Support for plug and play, where the system locates and installs drivers for newly detected hardware, 
+    assigns them hardware resources they require, and also allows applications to discover and activate 
+    device interfaces.
+    
+    \item[Power Management]
+    Support for power management so that the system or individual devices can enter low power states.
+    
+    \item[File Systems]
+    Support for multiple installable file systems, including FAT, the CD-ROM file sustem(CDFS), the 
+    Universal Disk Format (UDF) file system, and the Windows file system (NTFS).
+    
+    \item[Driver Tools]
+    Windows Management Instrumentation (WMI) support and diagnostics tools so that drivers can be managed 
+    and monitored through WMI scripts and programs.
+    
+\end{description}
+
+\subsection{I/O Processing}
+Windows provides a hardware abstraction layer (HAL) at the lowest level in order to encapsulate the different
+processor and interrupt signals and instead expose a uniform set of application programming interfaces (APIs)
+to device drivers. The next layer is the actual device drivers. This layer is followed by the I/O system
+layer, which includes the various executive components listed in the previous section. Most I/O
+operations in Windows are synchronous, which means the application thread will block while the device
+performs its data operations. Asynchronous I/O operations are enabled by specifying the FILE-FLAG-OVERLAPPED
+flag when calling the CreateFile function. This will allow the application to continue executing while the
+device performs the I/O operation \cite{Windows}.
+
+\begin{lstlisting}[language=C++]
+HANDLE WINAPI CreateFile(
+  _In_     LPCTSTR               lpFileName,
+  _In_     DWORD                 dwDesiredAccess,
+  _In_     DWORD                 dwShareMode,
+  _In_opt_ LPSECURITY_ATTRIBUTES lpSecurityAttributes,
+  _In_     DWORD                 dwCreationDisposition,
+  _In_     DWORD                 dwFlagsAndAttributes,
+  _In_opt_ HANDLE                hTemplateFile
+); 
+\end{lstlisting}
+
+Above is the implementation of the CreateFile function. This function is used to create or open files or
+other I/O devices. The Windows scheduler processes the file descriptors using a C-LOOK algorithm. Once
+the list contains requests, the drivers will iterate through the list from the lowest to highest sector
+\cite{Windows_CreateFile}.
+
+\section{FreeBSD}
+
+\subsection{I/O Components}
+There are multiple different types of file descriptors that are used for difference processes. These 
+file descriptors types and uses are as follows:
+
+\begin{itemize}
+\item  PIPE - pipe
+\item  FIFO - named pipe
+\item  SEM - POSIX semaphore
+\item  PTS - pseudo-teletype master device
+\item  DEV - device not reference by a vnode
+\item  MQUEUE - POSIX message queue
+\item  KQUEUE - event queue
+\item  CRYPTO - cryptographic hardware
+\item  SHM - POSIX shared memory
+\item  PROCDESC - process
+\item  VNODE - file or device
+\item  SOCKET - communication endpoint
+\end{itemize}
+
+These file descriptors are important because each data structure that is used to implement the 
+I/O scheduler has one of these types. Also, there are multiple different flags that go along 
+with these file descriptors that will tell the operating system whether to block or not or if 
+the process will be asynchronous or synchronous \cite{FreeBSDBook}.
+
+\subsection{I/O Processing}
+Below is the implementation of the standard disk scheduler in FreeBSD. A significant difference between 
+this scheduler and the Linux scheduler is the ability to delete, load, and unload. Delete is used to free
+resources when a scheduler is not in use. Load/unload are used can hook into the respective scheduler events
+to perform specific operations. Every time init is called, it will allocate a struct containing device 
+information, which is referenced using a file pointer \cite{FreeBSDBook}.
+
+\begin{lstlisting}[language=C++]
+struct _disk_sched_interface {
+       struct _disk_sched_interface *next;
+       char *name;     /* symbolic name */
+       int refcount;   /* users of this scheduler */
+
+       void (*disksort)(struct buf_queue_head *head, struct buf *bp);
+       void (*remove)(struct buf_queue_head *head, struct buf *bp);
+       struct buf *(*get_first)(struct buf_queue_head *head);
+       void (*init)(struct buf_queue_head *head);
+       void (*delete)(struct buf_queue_head *head);
+       void (*load)(void);     /* load scheduler */
+       void (*unload)(void);   /* unload scheduler */
+};
+\end{lstlisting}\cite{FreeBSD}
+
+\section{Conclusion}
+The design and implementation of I/O in FreeBSD is very similar to Linux, in that they both use C-LOOK algorithm.
+All three operating systems provide file descriptors to specify asynchronous data operations, but only FreeBSD
+requires the type of descriptor. Windows has several layers of abstraction, including the hardware 
+abstraction layer (HAL) to provide a uniform interface for all device drivers across different hardware 
+architectures. This is similar to the Linux kernel itself, which provides a uniform set of APIs across 
+countless devices. FreeBSD also has a form of HAL.
+
+\bibliographystyle{IEEEtran}
+\bibliography{biblio}
+
+\end{document}
