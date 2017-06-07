@@ -62,7 +62,16 @@ reallocated.
 
 \section{Windows}
 The core memory management system in Windows is called the Memory Manager. The system has two primary tasks: mapping 
-the virtual address space of a process to physical memory, and paging some contents of memory to disk. 
+the virtual address space of a process to physical memory, and paging some contents of memory to disk. The Memory 
+Manager ensures that when a process reads from or writes to memory, it is referencing the correct address. Paging 
+memory contents to disk occurs when a running process attempts to use more virtual memory than the machine
+has in physical memory.
+
+\subsection{Components}
+The Windows Memory Manager is comprised of several executive system services and components. These components 
+include executive system services for allocating and deallocating memory, managing virtual 
+memory, resolving hardware memory management exceptions, the balance set manager, the process/stack swapper, 
+the modifier page writer, the mapper page writer, the segment deference thread, and the zero page thread.
 
 
 \section{FreeBSD}
