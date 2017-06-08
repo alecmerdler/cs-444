@@ -90,6 +90,12 @@ time of allocation. The paged pool consists of virtual memory that can be paged.
 single processor systems have three paged pools, while multiprocessor systems have five.
 
 \subsection{Comparison to Linux}
+One of the major differences in memory management between Linux and Windows is the way the two 
+operating systems handle shared memory. In Windows, shared memory is controlled by the Memory Manager
+using an abstraction called section objects. Section objects connected to either an open file or a 
+section of committed memory, and can be used by many processes to pretend that the page is actually
+in physical memory. In Linux, shared memory are just virtual memory pages, created using the $shmget()$
+function.
 
 
 \section{FreeBSD}
