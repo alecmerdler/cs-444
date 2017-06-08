@@ -96,10 +96,9 @@ of the program.
 \subsection{Memory Allocation}
 The allocation of memory in FreeBSD is accomplished through two main C library routines: $malloc()$ and $free()$.
 This is very similar to other UNIX based operating systems. Below is a simple example of how to use these 
-two powerful functions to allocate 10 bytes to a string, then free the memory.
+two powerful functions to allocate 10 bytes to a string, then free the memory:
 
 \begin{figure}[H]
-\caption{Example of malloc() and free()}
 \begin{lstlisting}[language=C++]
 char *str;
 str = (char *) malloc(10);
@@ -112,10 +111,9 @@ free(str);
 While the design and implementation of memory management in FreeBSD and Linux are very similar, there are 
 some notable differences. One such difference is the use of superpages, which ensure that contiguous pages 
 are optimized for processor speed and the address translation cache. The following code snippet shows the 
-simplicity of the page struct in Linux:
+simplicity of the page struct in Linux, found in \url{linux/mm_types.h}:
 
 \begin{figure}[H]
-\caption{struct page from \url{linux/mm_types.h}}
 \begin{lstlisting}[language=C++]
 struct page {
 	unsigned long 			flags;
