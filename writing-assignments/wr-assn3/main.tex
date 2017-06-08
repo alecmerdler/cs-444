@@ -67,7 +67,7 @@ Manager ensures that when a process reads from or writes to memory, it is refere
 memory contents to disk occurs when a running process attempts to use more virtual memory than the machine
 has in physical memory.
 
-\subsection{Components}
+\subsection{Design}
 The Windows Memory Manager is comprised of several executive system services and components. These components 
 include executive system services for allocating and deallocating memory, managing virtual 
 memory, resolving hardware memory management exceptions, the balance set manager, the process/stack swapper, 
@@ -75,6 +75,15 @@ the modifier page writer, the mapper page writer, the segment deference thread, 
 
 
 \section{FreeBSD}
+The memory management system in FreeBSD is hierarchical in nature. First, there is the main primary memory system.
+This is usually random access memory (RAM). Secondary memory is usually hard disk or solid state drives.
+
+\section{Design}
+FreeBSD implements a private address space for each of its processes. This address space is divided into three 
+segments: text, data, and stack. The text segment is read only and contains the machine instructions of 
+the program. It is where the programs code is stored and pulled during execution. The data segment 
+contains initialized and uninitialized data of the program. The stack segment contains the runtime stack 
+of the program.
 
 
 \section{Conclusion}
