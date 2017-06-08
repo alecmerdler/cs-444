@@ -73,6 +73,14 @@ include executive system services for allocating and deallocating memory, managi
 memory, resolving hardware memory management exceptions, the balance set manager, the process/stack swapper, 
 the modifier page writer, the mapper page writer, the segment deference thread, and the zero page thread.
 
+\subsection{Implementation}
+The Windows operating system uses pages as the smallest unit of memory protection at the hardware level.
+Two types of pages are defined: small and large. Large pages have a significant speed advantage when 
+translating virtual memory locations to physical addresses because the first reference to any byte in a 
+large page causes the hardware translation look aside buffer to have the necessary information in its 
+cache to translate references of any other byte in the page. Small pages do not have this advantage,
+therefore the core of the Windows operating system is mapped to large pages.
+
 \subsection{Comparison to Linux}
 
 
@@ -105,7 +113,6 @@ str = (char *) malloc(10);
 free(str);
 \end{lstlisting}
 \end{figure}
-
 
 \subsection{Comparison to Linux}
 While the design and implementation of memory management in FreeBSD and Linux are very similar, there are 
