@@ -60,6 +60,7 @@ needs to perform, which was a fundamentally slow operation (until the advent of 
 also be allocated to running programs to be used in their processes, and then needs to be cleaned up and 
 reallocated.
 
+
 \section{Windows}
 The core memory management system in Windows is called the Memory Manager. The system has two primary tasks: mapping 
 the virtual address space of a process to physical memory, and paging some contents of memory to disk. The Memory 
@@ -104,7 +105,6 @@ This is usually random access memory (RAM). Secondary memory is usually hard dis
 this model, all processes run in the virtual address space. References to the virtual address space are 
 interpreted by the hardware to references in physical memory by a process called address translation.
 
-
 \subsection{Design}
 FreeBSD implements a private address space for each of its processes. This address space is divided into three 
 segments: text, data, and stack. The text segment is read only and contains the machine instructions of 
@@ -112,10 +112,9 @@ the program. It is where the programs code is stored and pulled during execution
 contains initialized and uninitialized data of the program. The stack segment contains the runtime stack 
 of the program.
 
-
 \subsection{Implementation}
 
-\subsection{Memory Allocation}
+\subsubsection{Memory Allocation}
 The allocation of memory in FreeBSD is accomplished through two main C library routines: $malloc()$ and $free()$.
 This is very similar to other UNIX based operating systems. Below is a simple example of how to use these 
 two powerful functions to allocate 10 bytes to a string, then free the memory:
@@ -127,6 +126,14 @@ str = (char *) malloc(10);
 free(str);
 \end{lstlisting}
 \end{figure}
+
+\subsubsection{Shared Memory}
+It is often necessary for processes to communicate with each other. This interprocess communication can 
+easily be achieved using system calls, but these are often slow and require additional memory to execute.
+Instead, by allocating a shared memory address, any process can mutate and view changes to the memory 
+referenced by that address. This strategy runs the risk of one process corrupting the memory and affecting
+all other processes using that memory. In FreeBSD, this is avoided by using semaphores, which themselves 
+are located in shared memory to reduce the overhead of the necessary system calls.
 
 \subsection{Comparison to Linux}
 While the design and implementation of memory management in FreeBSD and Linux are very similar, there are 
