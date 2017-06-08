@@ -73,6 +73,8 @@ include executive system services for allocating and deallocating memory, managi
 memory, resolving hardware memory management exceptions, the balance set manager, the process/stack swapper, 
 the modifier page writer, the mapper page writer, the segment deference thread, and the zero page thread.
 
+\subsection{Comparison to Linux}
+
 
 \section{FreeBSD}
 The memory management system in FreeBSD is hierarchical in nature. First, there is the main primary memory system.
@@ -80,16 +82,37 @@ This is usually random access memory (RAM). Secondary memory is usually hard dis
 this model, all processes run in the virtual address space. References to the virtual address space are 
 interpreted by the hardware to references in physical memory by a process called address translation.
 
-\section{Design}
+
+\subsection{Design}
 FreeBSD implements a private address space for each of its processes. This address space is divided into three 
 segments: text, data, and stack. The text segment is read only and contains the machine instructions of 
 the program. It is where the programs code is stored and pulled during execution. The data segment 
 contains initialized and uninitialized data of the program. The stack segment contains the runtime stack 
 of the program.
 
-\section{Comparison to Linux}
+
+\subsection{Implementation}
+
+\subsection{Memory Allocation}
+The allocation of memory in FreeBSD is accomplished through two main C library routines: $malloc()$ and $free()$.
+This is very similar to other UNIX based operating systems. Below is a simple example of how to use these 
+two powerful functions to allocate 10 bytes to a string, then free the memory.
+
+\begin{figure}[H]
+\caption{Example of malloc() and free()}
+\begin{lstlisting}[language=C++]
+char *str;
+str = (char *) malloc(10);
+free(str);
+\end{lstlisting}
+\end{figure}
+
+
+\subsection{Comparison to Linux}
 While the design and implementation of memory management in FreeBSD and Linux are very similar, there are 
-some notable differences. One such difference is the use of 
+some notable differences. One such difference is the use of superpages, which ensure that contiguous pages 
+are optimized for processor speed and the address translation cache. The following code snippet shows the 
+simplicity of the page struct in Linux:
 
 \begin{figure}[H]
 \caption{struct page from \url{linux/mm_types.h}}
@@ -109,11 +132,6 @@ struct page {
 
 
 \section{Conclusion}
-
-
-\begin{lstlisting}[language=C++]
-
-\end{lstlisting}
 
 
 remove me\cite{Windows}
