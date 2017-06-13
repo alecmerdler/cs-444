@@ -11,6 +11,7 @@
 \usepackage{float}
 \usepackage{color}
 \usepackage{graphicx}
+\usepackage{enumitem}
 \usepackage[justification=centering]{caption}
 \usepackage{listings}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
@@ -32,7 +33,7 @@
 \setcounter{secnumdepth}{5}
 \setcounter{secnumdepth}{5}
 
-\title{Writing Assignment 1}
+\title{Writing Assignment 3}
 
 \author{
 	Alec Merdler\\
@@ -42,7 +43,7 @@
 	Spring 2017\\
 }
 
-\date{March 28, 2017}
+\date{June 2, 2017}
 
 \begin{document}
 \begin{titlepage}
@@ -53,152 +54,120 @@
 \end{titlepage}
 
 \section{Introduction}
-    \subsection{Processes}
-    The explicit purpose of computers is to execute sets of instructions, called programs. As computers have increased
-    in power and speed, the complexity and number of these programs has also increased. A simple program could count
-    to the number ten, printing out each number along the way, then stop. The resources needed for a computer to
-    execute this program would be minimal (barring any fancy recursion), and has only one explicit process: to
-    count numbers. However, a more complex example would be a program that receives user input, performs extensive
-    calculations, updates a database, and returns a result to the user. This type of program would be more aptly
-    classified as a computer application, in that it contains many different components and processes, versus just
-    counting numbers. Many of these processes can happen at the same time, and there can be duplicate processes in
-    order to divide the work needed to be done. We can therefore think of a computer process as a program that is
-    being executed, from which applications are built.
+An essential function of computers is memory management. This is the process of loading data from disk and assigning
+it to a contiguous block of main memory, called a page. This reduces the number of disk reads the operating system 
+needs to perform, which was a fundamentally slow operation (until the advent of solid state drives). Memory can 
+also be allocated to running programs to be used in their processes, and then needs to be cleaned up and 
+reallocated.
 
-    \subsection{Threads}
-    Each computer process requires resources in order to run, including the CPU, RAM, and hard disk storage. The
-    operating system allocates these resources using threads.
-
-    \subsection{CPU Scheduling}
-    Any operating system that claims to be a multiprocessing operating system must have a way of managing all of
-    the running processes and allocating system resources to them. One of the most critical resources is the CPU's
-    time. Modern CPU's have multiple physical cores, which can execute their own process. However, in order to run
-    even more processes at the same time, the operating system can quickly switch between different processes, giving
-    them time to use the CPU, and creating the appearance of running many programs simultaneously.
-
-
-\section{Linux}
-    \subsection{Processes}
-    Each process (also known as a task) in Linux is represented by a task\_struct data structure, which is naturally
-    large and complex. Outlined below are the main basic functional areas and fields \cite{linuxprocesses}:
-
-    \begin{itemize}
-        \item State - Can be one of following: running, waiting, stopped, zombie
-        \item Scheduling Information - Data regarding process precedence in the system
-        \item Identifiers - Simply a unique number for the process
-        \item Inter-Process Communication - Standard *nix information for processes to share data
-        \item Links - Pointers to parent, sibling, and child processes
-        \item Timers - Data about when the process was created and how much CPU time it has consumed
-        \item File System - Pointers to working directories and other files
-        \item Virtual Memory - How much virtual memory assigned to the process
-        \item Processor Specific Context - Information that is needed to restart the process in the same state it was in
-    \end{itemize}
-
-    The tasks vector contains pointers to every task\_struct. The default size of the task vector is 512 entries, and
-    the currently running process can be found using the current pointer.
-    
-    \subsection{CPU Scheduling}
-    The Linux CPU scheduling algorithm revolves around two key data structures: runqueues and priority arrays. 
-    Runqueues are defined by a struct in \textbf{kernel/sched.c}, and contains fields like locks, number of running
-    tasks, CPU load, pointer to current task, and others. Priority arrays allow round robin scheduling and finding 
-    the highest priority task occur in constant time, which is a key part of the Linux scheduler \cite{linuxscheduler}.
-
-\section{FreeBSD}
-    \subsection{Processes}
-    Processes in FreeBSD are similar to those in Linux in many ways. Each process has a unique process ID (PID). Each
-    process has one owner and group whose permissions determine which files and devices the process can open. Processes
-    also have a tree structure, with parent, sibling, and child processes \cite{freebsdfork}.
-    \\
-    New processes are created using the fork family of system calls. There are a few variations of the fork system call:
-    fork creates a complete copy of the parent process; rfork creates a copy that shares a selected set of resources from
-    its parent; vfork handles virtual memory differently than fork. Forking a process involves three steps: allocation and
-    initialization of a new child process structure, duplicating the context of the parent process, and scheduling the 
-    new child process to run. During the context duplication, the following portions are copied \cite{freebsdfork}:
-    \begin{itemize}
-    	\item Process group and session
-	\item Signal state (ignored, caught, and blocked signal masks)
-	\item The dg\_nice scheduling parameter 
-	\item A reference to the parent credentials
-	\item A reference to the set of open files by the parent
-	\item A reference to the parent limits
-    \end{itemize}
-    
-    \subsection{CPU Scheduling}
-    FreeBSD uses runqueues and round robin scheduling similar to Linux. If a thread blocks on a CPU, the scheduler
-    will move that thread to the sleepqueue to prevent it from affecting other threads.
 
 \section{Windows}
-    \subsection{Processes}
-    Processes in Windows are similar to those in Linux in many ways. Each process contains a virtual address space,
-    executable code, open handles to system objects, a security context, a unique process ID, environment variables,
-    a priority class, minimum and maximum working set sizes, and at least one thread of execution. Processes also
-    have a tree structure, with parent, sibling, and child processes.
+The core memory management system in Windows is called the Memory Manager. The system has two primary tasks: mapping 
+the virtual address space of a process to physical memory, and paging some contents of memory to disk. The Memory 
+Manager ensures that when a process reads from or writes to memory, it is referencing the correct address. Paging 
+memory contents to disk occurs when a running process attempts to use more virtual memory than the machine
+has in physical memory \cite{windows}.
 
-    Below is a code snippet showing how to create a child process in Windows using C++ \cite{windowsprocesses}:
+\subsection{Design}
+The Windows Memory Manager is comprised of several executive system services and components. These components 
+include executive system services for allocating and deallocating memory, managing virtual 
+memory, resolving hardware memory management exceptions, the balance set manager, the process/stack swapper, 
+the modifier page writer, the mapper page writer, the segment deference thread, and the zero page thread \cite{windows}.
+
+\subsection{Implementation}
+
+\subsubsection{Pages}
+The Windows operating system uses pages as the smallest unit of memory protection at the hardware level.
+Two types of pages are defined: small and large. Large pages have a significant speed advantage when 
+translating virtual memory locations to physical addresses because the first reference to any byte in a 
+large page causes the hardware translation look aside buffer to have the necessary information in its 
+cache to translate references of any other byte in the page. Small pages do not have this advantage,
+therefore the core of the Windows operating system is mapped to large pages \cite{windows}.
+
+\subsubsection{Memory Pools}
+The Windows Memory Manager creates and maintains both a paged and nonpaged memory pool. The nonpaged 
+pool consists of virtual memory addresses that are guaranteed to reside in physical memory at the 
+time of allocation. The paged pool consists of virtual memory that can be paged. For performance,
+single processor systems have three paged pools, while multiprocessor systems have five \cite{windows}.
+
+\subsection{Comparison to Linux}
+One of the major differences in memory management between Linux and Windows is the way the two 
+operating systems handle shared memory. In Windows, shared memory is controlled by the Memory Manager
+using an abstraction called section objects. Section objects connected to either an open file or a 
+section of committed memory, and can be used by many processes to pretend that the page is actually
+in physical memory \cite{windows}. In Linux, shared memory are just virtual memory pages, created 
+using the $shmget()$ function \cite{linux}.
+
+
+\section{FreeBSD}
+The memory management system in FreeBSD is hierarchical in nature. First, there is the main primary memory system.
+This is usually random access memory (RAM). Secondary memory is usually hard disk or solid state drives. In 
+this model, all processes run in the virtual address space. References to the virtual address space are 
+interpreted by the hardware to references in physical memory by a process called address translation \cite{freebsd}.
+
+\subsection{Design}
+FreeBSD implements a private address space for each of its processes. This address space is divided into three 
+segments: text, data, and stack. The text segment is read only and contains the machine instructions of 
+the program. It is where the programs code is stored and pulled during execution. The data segment 
+contains initialized and uninitialized data of the program. The stack segment contains the runtime stack 
+of the program \cite{freebsd}.
+
+\subsection{Implementation}
+
+\subsubsection{Memory Allocation}
+The allocation of memory in FreeBSD is accomplished through two main C library routines: $malloc()$ and $free()$.
+This is very similar to other UNIX based operating systems. Below is a simple example of how to use these 
+two powerful functions to allocate 10 bytes to a string, then free the memory:
+
+\begin{figure}[H]
 \begin{lstlisting}[language=C++]
-STARTUPINFO si;
-PROCESS_INFORMATION pi;
-
-ZeroMemory( &si, sizeof(si) );
-si.cb = sizeof(si);
-ZeroMemory( &pi, sizeof(pi) );
-
-// Start the child process.
-if( !CreateProcess( NULL,   // No module name (use command line)
-    argv[1],        // Command line
-    NULL,           // Process handle not inheritable
-    NULL,           // Thread handle not inheritable
-    FALSE,          // Set handle inheritance to FALSE
-    0,              // No creation flags
-    NULL,           // Use parent's environment block
-    NULL,           // Use parent's starting directory
-    &si,            // Pointer to STARTUPINFO structure
-    &pi )           // Pointer to PROCESS_INFORMATION structure
-)
-{
-    printf( "CreateProcess failed (%d).\n", GetLastError() );
-    return;
-}
+char *str;
+str = (char *) malloc(10);
+free(str);
 \end{lstlisting}
+\end{figure}
 
-    \subsection{Threads}
-    Each Windows process is started with a single thread, but can create more threads which all share its virtual
-    address space and system resources. Threads can be created by using the CreateThread function, which returns a
-    handle to the thread.
-    
-    \subsection{CPU Scheduling}
-    The Windows CPU scheduler uses the round robin method to assign time slices to all threads of the highest 
-    priority. If a thread with higher priority becomes ready to run, the scheduler will stop executing the lower
-    priority thread immediately and assign a full time slice to the new thread \cite{windowsprocesses}. This can 
-    be contrasted with the Linux scheduler, which utilizes runqueues to fairly assign time slices to threads 
-    while preventing starvation \cite{linuxscheduler}.
-    
-    
+\subsubsection{Shared Memory}
+It is often necessary for processes to communicate with each other. This interprocess communication can 
+easily be achieved using system calls, but these are often slow and require additional memory to execute.
+Instead, by allocating a shared memory address, any process can mutate and view changes to the memory 
+referenced by that address. This strategy runs the risk of one process corrupting the memory and affecting
+all other processes using that memory. In FreeBSD, this is avoided by using semaphores, which themselves 
+are located in shared memory to reduce the overhead of the necessary system calls \cite{freebsd}.
+
+\subsection{Comparison to Linux}
+While the design and implementation of memory management in FreeBSD and Linux are very similar, there are 
+some notable differences. One such difference is the use of superpages, which ensure that contiguous pages 
+are optimized for processor speed and the address translation cache. The following code snippet shows the 
+simplicity of the page struct in Linux, found in \url{linux/mm_types.h} \cite{linux}:
+
+\begin{figure}[H]
+\begin{lstlisting}[language=C++]
+struct page {
+	unsigned long 			flags;
+	atomic_t			_count;
+	atomic_t			_mapcount;
+	unsigned long			private;
+	struct address_space		*mapping;
+	pgoff_t				index;
+	struct list_head		lru;
+	void				*virtual;
+};
+\end{lstlisting}
+\end{figure}
+
+
 \section{Conclusion}
-The implementation of processes, threads, and multitasking are quite similar among Windows, FreeBSD, and Linux 
-operating systems. Where they differ is often due to legacy code or business restrictions, rather than an 
-engineering difference of opinion. After countless iterations of these implementations, the fact that they 
-have converged to such a common platform seems to indicate our engineering efforts have yielded the best 
-solution to this complex problem.
+Effective memory management is crucial to the performance of computer applications. Even programs 
+running on the latest high end hardware can underperform if the operating system is not taking 
+advantage of well established techniques, such as paging, address translation, and shared memory.
+The three major operating systems outlined here (Windows, FreeBSD, and Linux) have similar high level
+approaches to solving these problems, but the internal data structures and implementation of various
+system calls are what set them apart. Additionally, the handling of shared memory address space differs
+between them.
 
-\begin{thebibliography}{4}
 
-\bibitem{linuxprocesses}
-\textit{Chapter 4 Processes}
-David A Rusling, 1999, URL: \url{http://www.tldp.org/LDP/tlk/kernel/processes.html}
-
-\bibitem{freebsdfork}
-\textit{FreeBSD Man Pages - Fork(2)}
-The FreeBSD Project, 2017, URL: \url{https://www.freebsd.org/cgi/man.cgi?fork(2)}
-
-\bibitem{windowsprocesses}
-\textit{Design and Implementation of a CPU Bound Process Migration in Windows 7}
-A. M. Khidhir, B. A. Mustafa and N. T. Saleh, 2012, URL: \url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6516381&isnumber=6516308}
-
-\bibitem{linuxscheduler}
-\textit{Understanding the Linux 2.6.8.1 CPU Scheduler}
-Josh Aas, 2005, URL: \url{https://www.cs.unm.edu/~eschulte/classes/cs587/data/10.1.1.59.6385.pdf}
-
-\end{thebibliography}
+\bibliographystyle{IEEEtran}
+\bibliography{biblio}
 
 \end{document}
