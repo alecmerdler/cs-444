@@ -451,7 +451,13 @@ FreeBSD and Linux have many close similarities in both design and implementation
 that they were both started as forks of the Unix operating system. FreeBSD and Linux tend to favor centralized, 
 concise structures that follow similar patterns throught the kernel. Conversely, the architecture of Windows is
 more decentralized and complex. In general, Windows tends to favor large, complex structures split around 
-multiple places in the kernel to handle resource management tasks.
+multiple places in the kernel to handle resource management tasks. For example, Windows has a much more complex
+system of executive components, each with their own specific responsibility, that work together to form the
+input and output abstraction. However, FreeBSD, Linux, and Windows all have some form of hardware abstraction layer
+(HAL) and device driver layer, showing that this is one of the long lasting problems in operating systems that 
+programmers have reached consensus on. In all, it is important to understand how your operating system handles
+these problems because it gives you insight into problems you may be encountering, and of course, gives you an 
+appreciation for all of the hard work that goes into creating this incredibly complex software.
 
 
 \bibliographystyle{IEEEtran}
