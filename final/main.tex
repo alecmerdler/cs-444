@@ -351,7 +351,7 @@ reallocated.
         \cite{windows}.
 
         \subsubsection{Implementation}
-            \subsubsubsection{Pages}
+            \paragraph{Pages}
             The Windows operating system uses pages as the smallest unit of memory protection at the hardware level.
             Two types of pages are defined: small and large. Large pages have a significant speed advantage when 
             translating virtual memory locations to physical addresses because the first reference to any byte in a 
@@ -359,7 +359,7 @@ reallocated.
             cache to translate references of any other byte in the page. Small pages do not have this advantage,
             therefore the core of the Windows operating system is mapped to large pages \cite{windows}.
 
-            \subsubsubsection{Memory Pools}
+            \paragraph{Memory Pools}
             The Windows Memory Manager creates and maintains both a paged and nonpaged memory pool. The nonpaged 
             pool consists of virtual memory addresses that are guaranteed to reside in physical memory at the 
             time of allocation. The paged pool consists of virtual memory that can be paged. For performance,
@@ -388,7 +388,7 @@ reallocated.
 
         \subsubsection{Implementation}
 
-            \subsubsubsection{Memory Allocation}
+            \paragraph{Memory Allocation}
             The allocation of memory in FreeBSD is accomplished through two main C library routines: $malloc()$ and
             $free()$. This is very similar to other UNIX based operating systems. Below is a simple example of how 
             to use these two powerful functions to allocate 10 bytes to a string, then free the memory:
@@ -401,7 +401,7 @@ free(str);
 \end{lstlisting}
 \end{figure}
 
-            \subsubsubsection{Shared Memory}
+            \paragraph{Shared Memory}
             It is often necessary for processes to communicate with each other. This interprocess communication can 
             easily be achieved using system calls, but these are often slow and require additional memory to execute.
             Instead, by allocating a shared memory address, any process can mutate and view changes to the memory 
@@ -429,7 +429,6 @@ struct page {
 };
 \end{lstlisting}
 \end{figure}
-
 
     \subsection{Conclusion}
     Effective memory management is crucial to the performance of computer applications. Even programs 
