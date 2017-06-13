@@ -33,7 +33,7 @@
 \setcounter{secnumdepth}{5}
 \setcounter{secnumdepth}{5}
 
-\title{Writing Assignment 3}
+\title{Final Writing Assignment}
 
 \author{
 	Alec Merdler\\
@@ -43,7 +43,7 @@
 	Spring 2017\\
 }
 
-\date{June 2, 2017}
+\date{June 10, 2017}
 
 \begin{document}
 \begin{titlepage}
@@ -52,6 +52,140 @@
 
 \maketitle
 \end{titlepage}
+
+% Assignment 1
+
+\section{Introduction}
+    \subsection{Processes}
+    The explicit purpose of computers is to execute sets of instructions, called programs. As computers have increased
+    in power and speed, the complexity and number of these programs has also increased. A simple program could count
+    to the number ten, printing out each number along the way, then stop. The resources needed for a computer to
+    execute this program would be minimal (barring any fancy recursion), and has only one explicit process: to
+    count numbers. However, a more complex example would be a program that receives user input, performs extensive
+    calculations, updates a database, and returns a result to the user. This type of program would be more aptly
+    classified as a computer application, in that it contains many different components and processes, versus just
+    counting numbers. Many of these processes can happen at the same time, and there can be duplicate processes in
+    order to divide the work needed to be done. We can therefore think of a computer process as a program that is
+    being executed, from which applications are built.
+
+    \subsection{Threads}
+    Each computer process requires resources in order to run, including the CPU, RAM, and hard disk storage. The
+    operating system allocates these resources using threads.
+
+    \subsection{CPU Scheduling}
+    Any operating system that claims to be a multiprocessing operating system must have a way of managing all of
+    the running processes and allocating system resources to them. One of the most critical resources is the CPU's
+    time. Modern CPU's have multiple physical cores, which can execute their own process. However, in order to run
+    even more processes at the same time, the operating system can quickly switch between different processes, giving
+    them time to use the CPU, and creating the appearance of running many programs simultaneously.
+
+
+\section{Linux}
+    \subsection{Processes}
+    Each process (also known as a task) in Linux is represented by a task\_struct data structure, which is naturally
+    large and complex. Outlined below are the main basic functional areas and fields \cite{linuxprocesses}:
+
+    \begin{itemize}
+        \item State - Can be one of following: running, waiting, stopped, zombie
+        \item Scheduling Information - Data regarding process precedence in the system
+        \item Identifiers - Simply a unique number for the process
+        \item Inter-Process Communication - Standard *nix information for processes to share data
+        \item Links - Pointers to parent, sibling, and child processes
+        \item Timers - Data about when the process was created and how much CPU time it has consumed
+        \item File System - Pointers to working directories and other files
+        \item Virtual Memory - How much virtual memory assigned to the process
+        \item Processor Specific Context - Information that is needed to restart the process in the same state it was in
+    \end{itemize}
+
+    The tasks vector contains pointers to every task\_struct. The default size of the task vector is 512 entries, and
+    the currently running process can be found using the current pointer.
+    
+    \subsection{CPU Scheduling}
+    The Linux CPU scheduling algorithm revolves around two key data structures: runqueues and priority arrays. 
+    Runqueues are defined by a struct in \textbf{kernel/sched.c}, and contains fields like locks, number of running
+    tasks, CPU load, pointer to current task, and others. Priority arrays allow round robin scheduling and finding 
+    the highest priority task occur in constant time, which is a key part of the Linux scheduler \cite{linuxscheduler}.
+
+\section{FreeBSD}
+    \subsection{Processes}
+    Processes in FreeBSD are similar to those in Linux in many ways. Each process has a unique process ID (PID). Each
+    process has one owner and group whose permissions determine which files and devices the process can open. Processes
+    also have a tree structure, with parent, sibling, and child processes \cite{freebsdfork}.
+    \\
+    New processes are created using the fork family of system calls. There are a few variations of the fork system call:
+    fork creates a complete copy of the parent process; rfork creates a copy that shares a selected set of resources from
+    its parent; vfork handles virtual memory differently than fork. Forking a process involves three steps: allocation and
+    initialization of a new child process structure, duplicating the context of the parent process, and scheduling the 
+    new child process to run. During the context duplication, the following portions are copied \cite{freebsdfork}:
+    \begin{itemize}
+    	\item Process group and session
+	\item Signal state (ignored, caught, and blocked signal masks)
+	\item The dg\_nice scheduling parameter 
+	\item A reference to the parent credentials
+	\item A reference to the set of open files by the parent
+	\item A reference to the parent limits
+    \end{itemize}
+    
+    \subsection{CPU Scheduling}
+    FreeBSD uses runqueues and round robin scheduling similar to Linux. If a thread blocks on a CPU, the scheduler
+    will move that thread to the sleepqueue to prevent it from affecting other threads.
+
+\section{Windows}
+    \subsection{Processes}
+    Processes in Windows are similar to those in Linux in many ways. Each process contains a virtual address space,
+    executable code, open handles to system objects, a security context, a unique process ID, environment variables,
+    a priority class, minimum and maximum working set sizes, and at least one thread of execution. Processes also
+    have a tree structure, with parent, sibling, and child processes.
+
+    Below is a code snippet showing how to create a child process in Windows using C++ \cite{windowsprocesses}:
+\begin{lstlisting}[language=C++]
+STARTUPINFO si;
+PROCESS_INFORMATION pi;
+
+ZeroMemory( &si, sizeof(si) );
+si.cb = sizeof(si);
+ZeroMemory( &pi, sizeof(pi) );
+
+// Start the child process.
+if( !CreateProcess( NULL,   // No module name (use command line)
+    argv[1],        // Command line
+    NULL,           // Process handle not inheritable
+    NULL,           // Thread handle not inheritable
+    FALSE,          // Set handle inheritance to FALSE
+    0,              // No creation flags
+    NULL,           // Use parent's environment block
+    NULL,           // Use parent's starting directory
+    &si,            // Pointer to STARTUPINFO structure
+    &pi )           // Pointer to PROCESS_INFORMATION structure
+)
+{
+    printf( "CreateProcess failed (%d).\n", GetLastError() );
+    return;
+}
+\end{lstlisting}
+
+    \subsection{Threads}
+    Each Windows process is started with a single thread, but can create more threads which all share its virtual
+    address space and system resources. Threads can be created by using the CreateThread function, which returns a
+    handle to the thread.
+    
+    \subsection{CPU Scheduling}
+    The Windows CPU scheduler uses the round robin method to assign time slices to all threads of the highest 
+    priority. If a thread with higher priority becomes ready to run, the scheduler will stop executing the lower
+    priority thread immediately and assign a full time slice to the new thread \cite{windowsprocesses}. This can 
+    be contrasted with the Linux scheduler, which utilizes runqueues to fairly assign time slices to threads 
+    while preventing starvation \cite{linuxscheduler}.
+    
+    
+\section{Conclusion}
+The implementation of processes, threads, and multitasking are quite similar among Windows, FreeBSD, and Linux 
+operating systems. Where they differ is often due to legacy code or business restrictions, rather than an 
+engineering difference of opinion. After countless iterations of these implementations, the fact that they 
+have converged to such a common platform seems to indicate our engineering efforts have yielded the best 
+solution to this complex problem.
+
+
+% Assignment 3
 
 \section{Introduction}
 An essential function of computers is memory management. This is the process of loading data from disk and assigning
