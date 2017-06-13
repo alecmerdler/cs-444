@@ -203,7 +203,7 @@ FreeBSD, and Linux. However, there are also many similarities amongst them as we
 \subsection{I/O Components}
 The Windows I/O System consists of many executive components that together manage devices.
 The Windows operating system uses a number of executive components that work together to manage input and 
-output devices connected to the computer \cite{Windows}.
+output devices connected to the computer \cite{windows}.
 
 \begin{description}
 
@@ -253,7 +253,7 @@ layer, which includes the various executive components listed in the previous se
 operations in Windows are synchronous, which means the application thread will block while the device
 performs its data operations. Asynchronous I/O operations are enabled by specifying the FILE-FLAG-OVERLAPPED
 flag when calling the CreateFile function. This will allow the application to continue executing while the
-device performs the I/O operation \cite{Windows}.
+device performs the I/O operation \cite{windows}.
 
 \begin{lstlisting}[language=C++]
 HANDLE WINAPI CreateFile(
@@ -319,7 +319,7 @@ struct _disk_sched_interface {
        void (*load)(void);     /* load scheduler */
        void (*unload)(void);   /* unload scheduler */
 };
-\end{lstlisting}\cite{FreeBSD}
+\end{lstlisting}\cite{freebsd}
 
 \section{Conclusion}
 The design and implementation of I/O in FreeBSD is very similar to Linux, in that they both use C-LOOK algorithm.
